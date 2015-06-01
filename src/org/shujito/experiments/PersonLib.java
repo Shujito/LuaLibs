@@ -1,0 +1,111 @@
+package org.shujito.experiments;
+
+import org.luaj.vm2.LuaUserdata;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.TwoArgFunction;
+
+public class PersonLib extends TwoArgFunction
+{
+	@Override
+	public LuaValue call(LuaValue module, LuaValue env)
+	{
+		LuaValue library = tableOf();
+		library.set("new", new New());
+		LuaValue methods = tableOf();
+		methods.set("name", new SetName());
+		methods.set("lastname", new SetLastName());
+		methods.set("age", new SetAge());
+		methods.set("hello", new Hello());
+		methods.set("greet", new Greet());
+		methods.set("meet", new Meet());
+		methods.set("__tostring", new ToString());
+		methods.set("__index", methods);
+		library.set("Methods", methods);
+		env.set("Person", library);
+		return library;
+	}
+	
+	static class New extends OneArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue lib)
+		{
+			return LuaUserdata.userdataOf(new Person(), lib.get("Methods"));
+		}
+	}
+	
+	static class SetName extends TwoArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson, LuaValue name)
+		{
+			Person p = Person.class.cast(luaPerson.checkuserdata(Person.class));
+			p.setName(name.checkjstring());
+			return luaPerson;
+		}
+	}
+	
+	static class SetLastName extends TwoArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson, LuaValue lastName)
+		{
+			Person p = Person.class.cast(luaPerson.checkuserdata(Person.class));
+			p.setLastName(lastName.checkjstring());
+			return luaPerson;
+		}
+	}
+	
+	static class SetAge extends TwoArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson, LuaValue age)
+		{
+			Person p = Person.class.cast(luaPerson.checkuserdata(Person.class));
+			p.setAge(age.checkint());
+			return luaPerson;
+		}
+	}
+	
+	static class Hello extends OneArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson)
+		{
+			Person p = Person.class.cast(luaPerson.checkuserdata(Person.class));
+			return valueOf(p.hello());
+		}
+	}
+	
+	static class Greet extends OneArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson)
+		{
+			Person p = Person.class.cast(luaPerson.checkuserdata(Person.class));
+			return valueOf(p.greet());
+		}
+	}
+	
+	static class Meet extends TwoArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson1, LuaValue luaPerson2)
+		{
+			Person p1 = Person.class.cast(luaPerson1.checkuserdata(Person.class));
+			Person p2 = Person.class.cast(luaPerson2.checkuserdata(Person.class));
+			return valueOf(p1.meet(p2));
+		}
+	}
+	
+	static class ToString extends OneArgFunction
+	{
+		@Override
+		public LuaValue call(LuaValue luaPerson)
+		{
+			Person p = Person.class.cast(luaPerson.checkuserdata(Person.class));
+			return valueOf(String.format("Person @%x", p.hashCode()));
+		}
+	}
+}
