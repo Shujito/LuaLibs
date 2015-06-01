@@ -20,7 +20,7 @@ public class PersonLib extends TwoArgFunction
 		methods.set("greet", new Greet());
 		methods.set("meet", new Meet());
 		methods.set("__tostring", new ToString());
-		methods.set("__index", methods);
+		//methods.set("__index", methods);
 		library.set("Methods", methods);
 		env.set("Person", library);
 		return library;
@@ -31,7 +31,22 @@ public class PersonLib extends TwoArgFunction
 		@Override
 		public LuaValue call(LuaValue lib)
 		{
-			return LuaUserdata.userdataOf(new Person(), lib.get("Methods"));
+			// the methods
+			LuaValue methods = lib.get("Methods");
+			// where to place arbitrary values (useful for js-like tricks)
+			LuaValue values = tableOf();
+			// use this metatable for the values table
+			LuaValue valuesMetatable = tableOf();
+			// use this metatable for each user
+			LuaValue metatable = tableOf();
+			// get the value or try getting the method if it exists
+			valuesMetatable.set("__index", methods);
+			values.setmetatable(valuesMetatable);
+			// get a value
+			metatable.set("__index", values);
+			// set a value
+			metatable.set("__newindex", values);
+			return LuaUserdata.userdataOf(new Person(), metatable);
 		}
 	}
 	
