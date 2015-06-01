@@ -1,6 +1,5 @@
 package org.shujito.experiments;
 
-import org.luaj.vm2.LuaUserdata;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -46,7 +45,7 @@ public class PersonLib extends TwoArgFunction
 			metatable.set("__index", values);
 			// set a value
 			metatable.set("__newindex", values);
-			return LuaUserdata.userdataOf(new Person(), metatable);
+			return userdataOf(new Person(), metatable);
 		}
 	}
 	
