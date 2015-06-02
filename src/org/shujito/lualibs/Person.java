@@ -1,4 +1,4 @@
-package org.shujito.experiments;
+package org.shujito.lualibs;
 
 public class Person
 {

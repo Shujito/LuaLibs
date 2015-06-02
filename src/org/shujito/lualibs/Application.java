@@ -1,4 +1,4 @@
-package org.shujito.experiments;
+package org.shujito.lualibs;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LoadState;
