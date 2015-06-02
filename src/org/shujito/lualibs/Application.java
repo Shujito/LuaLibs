@@ -7,6 +7,7 @@ import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.DebugLib;
 import org.luaj.vm2.lib.PackageLib;
 import org.luaj.vm2.lib.StringLib;
+import org.luaj.vm2.lib.TableLib;
 import org.luaj.vm2.lib.jse.JseBaseLib;
 
 public class Application
@@ -20,10 +21,11 @@ public class Application
 		globals.load(new JseBaseLib());
 		globals.load(new PackageLib());
 		globals.load(new StringLib());
-		//globals.load(new TableLib());
+		globals.load(new TableLib());
 		globals.load(new DebugLib());
-		// custom lib!
+		// custom libs!
 		globals.load(new PersonLib());
+		globals.load(new FileLib());
 		LoadState.install(globals);
 		LuaC.install(globals);
 		//String script = "return function() local alice = Person:new():name('Alice'):lastname('Margatroid'):age(25) print(alice:greet()) end";

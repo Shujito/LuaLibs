@@ -4,7 +4,7 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 
-public class PersonLib extends TwoArgFunction
+public final class PersonLib extends TwoArgFunction
 {
 	@Override
 	public LuaValue call(LuaValue module, LuaValue env)
@@ -25,7 +25,7 @@ public class PersonLib extends TwoArgFunction
 		return library;
 	}
 	
-	static class New extends OneArgFunction
+	static final class New extends OneArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue lib)
@@ -38,7 +38,7 @@ public class PersonLib extends TwoArgFunction
 			LuaValue valuesMetatable = tableOf();
 			// use this metatable for each user
 			LuaValue metatable = tableOf();
-			// get the value or try getting the method if it exists
+			// get the value or get the method if it exists or nil if nothing
 			valuesMetatable.set("__index", methods);
 			values.setmetatable(valuesMetatable);
 			// get a value
@@ -49,7 +49,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class SetName extends TwoArgFunction
+	static final class SetName extends TwoArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson, LuaValue name)
@@ -60,7 +60,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class SetLastName extends TwoArgFunction
+	static final class SetLastName extends TwoArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson, LuaValue lastName)
@@ -71,7 +71,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class SetAge extends TwoArgFunction
+	static final class SetAge extends TwoArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson, LuaValue age)
@@ -82,7 +82,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class Hello extends OneArgFunction
+	static final class Hello extends OneArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson)
@@ -92,7 +92,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class Greet extends OneArgFunction
+	static final class Greet extends OneArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson)
@@ -102,7 +102,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class Meet extends TwoArgFunction
+	static final class Meet extends TwoArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson1, LuaValue luaPerson2)
@@ -113,7 +113,7 @@ public class PersonLib extends TwoArgFunction
 		}
 	}
 	
-	static class ToString extends OneArgFunction
+	static final class ToString extends OneArgFunction
 	{
 		@Override
 		public LuaValue call(LuaValue luaPerson)
