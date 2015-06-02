@@ -49,7 +49,13 @@ local function methods()
 	print(reimu.greet)
 end
 
-return main
---return metas
---return touhous
---return methods
+return function()
+	print '== main ============================================================'
+	main()
+	print '== metas ==========================================================='
+	metas()
+	print '== touhous ========================================================='
+	touhous()
+	print '== methods ========================================================='
+	methods()
+end
