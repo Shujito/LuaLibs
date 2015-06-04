@@ -4,7 +4,7 @@ end
 
 local function touhous()
 	local reimu = Person:new():name('Reimu'):lastname('Hakurei'):age(19)
-	local sanae = Person:new():name('Sanae'):lastname('Kochiya'):age(17)	
+	local sanae = Person:new():name('Sanae'):lastname('Kochiya'):age(17)
 	print(reimu:greet())
 	print(sanae:greet())
 	print(reimu:meet(sanae))
